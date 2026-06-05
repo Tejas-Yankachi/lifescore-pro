@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>🌟 LifeScore Pro | Wellness Dashboard</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f4fa 0%, #e8edf5 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 1rem;
+      min-height: 100vh;
+    }
+
+    .dashboard {
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a4d5f, #2c7a6e);
+      border-radius: 1.8rem;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .hero h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .hero p {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-top: 6px;
+    }
+
+    .hero-badge {
+      background: rgba(255,255,255,0.2);
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.65rem;
+      margin-top: 10px;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1.3rem;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+      color: #1a4d5f;
+      border-left: 4px solid #2c7a6e;
+      padding-left: 12px;
+    }
+
+    /* Input Rows */
+    .input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .input-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4a6a7c;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-wrapper {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .value-badge {
+      background: #e0f0ed;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #2c7a6e;
+      min-width: 55px;
+      text-align: center;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 5px;
+      -webkit-appearance: none;
+      background: #dce5e8;
+      border-radius: 5px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #2c7a6e;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 1rem;
+      border: 1px solid #d0dce5;
+      background: white;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Score Grid */
+    .scores-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+
+    .score-card {
+      background: linear-gradient(125deg, #f8fafc, #ffffff);
+      border-radius: 1.2rem;
+      padding: 0.8rem 0.3rem;
+      text-align: center;
+      border: 1px solid #e2edf0;
+      transition: all 0.2s;
+    }
+
+    .score-card:hover {
+      transform: scale(1.02);
+      background: white;
+    }
+
+    .score-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #7a9aaa;
+      letter-spacing: 0.5px;
+    }
+
+    .score-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1a4d5f;
+      line-height: 1.2;
+    }
+
+    /* Vibe & Quote */
+    .vibe-card {
+      background: linear-gradient(125deg, #eef7f4, #ffffff);
+      border-left: 4px solid #f5b56e;
+    }
+
+    .vibe-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .vibe-tag {
+      background: #e0f0ed;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #2c7a6e;
+    }
+
+    .quote-text {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #2c4f5e;
+      font-style: italic;
+    }
+
+    .quote-author {
+      font-size: 0.65rem;
+      text-align: right;
+      margin-top: 6px;
+      color: #b28b5e;
+    }
+
+    .challenge-box {
+      background: #fff8ef;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #6a4e2a;
+    }
+
+    /* Medal Styles */
+    .medal-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .medal {
+      border-radius: 30px;
+      padding: 5px 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .medal-gold {
+      background: linear-gradient(125deg, #FFF8E7, #FFE4B5);
+      border-left: 3px solid #F5A623;
+      color: #b87c00;
+    }
+
+    .medal-silver {
+      background: linear-gradient(125deg, #F0F4F8, #E8EDF2);
+      border-left: 3px solid #9E9E9E;
+      color: #5a626e;
+    }
+
+    .medal-bronze {
+      background: linear-gradient(125deg, #FDF1E6, #F5E1C8);
+      border-left: 3px solid #CD7F32;
+      color: #8B5E3C;
+    }
+
+    /* Share Button */
+    .share-btn {
+      background: linear-gradient(120deg, #25D366, #128C7E);
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 2rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
+    .share-btn:hover {
+      transform: scale(0.98);
+      filter: brightness(1.05);
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a2e3b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px);}
+      to { opacity: 1; transform: translateX(-50%) translateY(0);}
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9);}
+      to { opacity: 1; transform: scale(1);}
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.6rem;
+      color: #8aa5b5;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+
+    hr {
+      margin: 0.5rem 0;
+      border: none;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    @media (max-width: 480px) {
+      .input-label {
+        width: 80px;
+        font-size: 0.7rem;
+      }
+      .score-value {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1><i class="fas fa-chart-line"></i> LifeScore Pro</h1>
+    <p>Track your daily habits · Earn Medals · Get Inspired</p>
+    <div class="hero-badge">
+      <i class="fas fa-star"></i> Built for Growth · By a Developer
+    </div>
+  </div>
+
+  <!-- Inputs Card -->
+  <div class="card">
+    <div class="card-title"><i class="fas fa-sliders-h"></i> 📊 How was your day?</div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-bed"></i> Sleep</span>
+      <div class="slider-wrapper"><input type="range" id="sleepRange" min="0" max="12" step="0.5" value="7"></div>
+      <span id="sleepVal" class="value-badge">7.0h</span>
+    </div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-mobile-alt"></i> Screen Time</span>
+      <div class="slider-wrapper"><input type="range" id="screenRange" min="0" max="16" step="0.5" value="5"></div>
+      <span id="screenVal" class="value-badge">5.0h</span>
+    </div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-code"></i> Deep Work</span>
+      <div class="slider-wrapper"><input type="range" id="studyRange" min="0" max="12" step="0.5" value="2.5"></div>
+      <span id="studyVal" class="value-badge">2.5h</span>
+    </div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-tint"></i> Water</span>
+      <div class="slider-wrapper"><input type="range" id="waterRange" min="0" max="15" step="1" value="6"></div>
+      <span id="waterVal" class="value-badge">6c</span>
+    </div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-running"></i> Exercise</span>
+      <div class="slider-wrapper"><input type="range" id="exerciseRange" min="0" max="90" step="5" value="20"></div>
+      <span id="exerciseVal" class="value-badge">20m</span>
+    </div>
+    <div class="input-row">
+      <span class="input-label"><i class="fas fa-smile-wink"></i> Mood</span>
+      <div class="slider-wrapper"><select id="moodSelect">
+        <option value="0.3">🌧️ Stressed / Tired</option>
+        <option value="0.5">🌥️ Okay / Average</option>
+        <option value="0.7">☀️ Good / Productive</option>
+        <option value="0.85">🌟 Happy / Energetic</option>
+        <option value="1.0">⚡ Amazing / On Fire!</option>
+      </select></div>
+      <span id="moodIndicator" class="value-badge"></span>
+    </div>
+  </div>
+
+  <!-- Live Scores -->
+  <div class="card">
+    <div class="card-title"><i class="fas fa-chart-line"></i> 🎯 Your Performance Scores</div>
+    <div class="scores-grid">
+      <div class="score-card"><div class="score-label"><i class="fas fa-bolt"></i> Productivity</div><div class="score-value" id="prodScore">--</div></div>
+      <div class="score-card"><div class="score-label"><i class="fas fa-heart"></i> Happiness</div><div class="score-value" id="happyScore">--</div></div>
+      <div class="score-card"><div class="score-label"><i class="fas fa-apple-alt"></i> Health</div><div class="score-value" id="healthScore">--</div></div>
+      <div class="score-card"><div class="score-label"><i class="fas fa-fire"></i> Vitality</div><div class="score-value" id="vitalityScore">--</div></div>
+    </div>
+  </div>
+
+  <!-- Motivation & Challenge -->
+  <div class="card vibe-card">
+    <div class="card-title"><i class="fas fa-quote-left"></i> ✨ Daily Inspiration</div>
+    <div class="vibe-row">
+      <span class="vibe-tag" id="vibeTag"><i class="fas fa-chart-simple"></i> Balanced</span>
+      <span class="vibe-tag" id="strengthBadge">Keep Growing</span>
+    </div>
+    <div class="quote-text" id="quoteText">“The expert in anything was once a beginner.”</div>
+    <div class="quote-author" id="quoteAuthor">— Helen Hayes</div>
+    <hr>
+    <div class="challenge-box" id="challengeText">
+      ⚡ Adjust the sliders above and see your medals appear!
+    </div>
+  </div>
+
+  <!-- Medals + Share -->
+  <div class="card">
+    <div class="card-title"><i class="fas fa-medal"></i> 🏅 Your Medal Collection</div>
+    <div class="medal-container" id="medalContainer">
+      <span class="medal">🎮 Try moving the sliders → earn medals!</span>
+    </div>
+    <button class="share-btn" id="whatsappShareBtn">
+      <i class="fab fa-whatsapp"></i> Share My Score on WhatsApp
+    </button>
+  </div>
+  
+  <footer>
+    <i class="fas fa-sync-alt"></i> Real-time updates · Every slider changes your score · Keep growing every day
+  </footer>
+</div>
+
+<script>
+  // DOM elements
+  const sleepRange = document.getElementById('sleepRange');
+  const screenRange = document.getElementById('screenRange');
+  const studyRange = document.getElementById('studyRange');
+  const waterRange = document.getElementById('waterRange');
+  const exerciseRange = document.getElementById('exerciseRange');
+  const moodSelect = document.getElementById('moodSelect');
+  const whatsappBtn = document.getElementById('whatsappShareBtn');
+  
+  const sleepValSpan = document.getElementById('sleepVal');
+  const screenValSpan = document.getElementById('screenVal');
+  const studyValSpan = document.getElementById('studyVal');
+  const waterValSpan = document.getElementById('waterVal');
+  const exerciseValSpan = document.getElementById('exerciseVal');
+  const moodIndicatorSpan = document.getElementById('moodIndicator');
+  
+  const prodScoreEl = document.getElementById('prodScore');
+  const happyScoreEl = document.getElementById('happyScore');
+  const healthScoreEl = document.getElementById('healthScore');
+  const vitalityScoreEl = document.getElementById('vitalityScore');
+  const quoteTextEl = document.getElementById('quoteText');
+  const quoteAuthorEl = document.getElementById('quoteAuthor');
+  const challengeTextEl = document.getElementById('challengeText');
+  const vibeTagEl = document.getElementById('vibeTag');
+  const strengthBadgeEl = document.getElementById('strengthBadge');
+  const medalContainer = document.getElementById('medalContainer');
+  
+  function updateLabels() {
+    sleepValSpan.innerText = parseFloat(sleepRange.value).toFixed(1) + "h";
+    screenValSpan.innerText = parseFloat(screenRange.value).toFixed(1) + "h";
+    studyValSpan.innerText = parseFloat(studyRange.value).toFixed(1) + "h";
+    waterValSpan.innerText = waterRange.value + "c";
+    exerciseValSpan.innerText = exerciseRange.value + "m";
+    const moodText = moodSelect.options[moodSelect.selectedIndex]?.text || "Good";
+    moodIndicatorSpan.innerText = moodText.split(' ')[0];
+  }
+  
+  // Scoring algorithms
+  function calcProductivity(sleep, screen, study, exercise) {
+    let sleepFactor = (sleep >= 7 && sleep <= 9) ? 1 : (sleep < 5 ? 0.4 : (sleep < 7 ? 0.7 : 0.75));
+    let studyBenefit = Math.min(study, 8) / 8;
+    if (study > 8) studyBenefit = 1 - (study-8)*0.07;
+    studyBenefit = Math.min(1, Math.max(0.2, studyBenefit));
+    let screenPenalty = 1 - Math.min(0.55, Math.max(0, (screen-3)/14));
+    if (screen > 12) screenPenalty = 0.45;
+    let exerciseBonus = Math.min(0.12, exercise/600);
+    let raw = (sleepFactor * 0.35 + studyBenefit * 0.45 + screenPenalty * 0.2) + exerciseBonus;
+    return Math.min(100, Math.max(0, Math.round(raw * 100)));
+  }
+  
+  function calcHappiness(sleep, water, moodVal, exercise, screen) {
+    let moodFactor = moodVal;
+    let waterBonus = Math.min(1, water/8);
+    if (water < 3) waterBonus = 0.3;
+    let sleepHappy = (sleep >= 6.5 && sleep <= 8.5) ? 1 : (sleep < 5 ? 0.5 : 0.8);
+    let exerciseHappy = Math.min(0.18, exercise/200);
+    let screenHappy = 1 - Math.min(0.4, screen/18);
+    let raw = (moodFactor * 0.5) + (waterBonus * 0.2) + (sleepHappy * 0.15) + (screenHappy * 0.05) + exerciseHappy;
+    return Math.min(100, Math.max(0, Math.round(raw * 100)));
+  }
+  
+  function calcHealth(sleep, water, screen, exercise) {
+    let sleepHealth = (sleep >= 7 && sleep <= 9) ? 1 : (sleep < 5 ? 0.4 : (sleep > 10 ? 0.55 : 0.75));
+    let waterHealth = Math.min(1, water/8);
+    if (water >= 10) waterHealth = 1;
+    let screenHealth = 1 - Math.min(0.5, screen/14);
+    let exerciseHealth = Math.min(0.35, exercise/70);
+    let raw = (sleepHealth * 0.4) + (waterHealth * 0.3) + (screenHealth * 0.15) + exerciseHealth;
+    return Math.min(100, Math.max(0, Math.round(raw * 100)));
+  }
+  
+  function calcVitality(sleep, water, exercise, moodVal) {
+    let moodBoost = moodVal * 0.2;
+    let sleepScore = (sleep >= 7 && sleep <= 8.5) ? 1 : (sleep > 9 ? 0.7 : 0.5);
+    let waterScore = Math.min(1, water/7);
+    let exerciseScore = Math.min(1, exercise/45);
+    let raw = (sleepScore*0.35 + waterScore*0.25 + exerciseScore*0.3 + moodBoost);
+    return Math.min(100, Math.max(0, Math.round(raw*100)));
+  }
+  
+  // Quotes
+  const quotes = [
+    { text: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
+    { text: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { text: "The expert in anything was once a beginner.", author: "Helen Hayes" },
+    { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+    { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+    { text: "Your future self is watching you right now through memories. Make them proud.", author: "Anonymous" },
+    { text: "Small steps every day lead to big results over time.", author: "Growth Mindset" }
+  ];
+  
+  function updateQuote() {
+    const idx = Math.floor(Math.random() * quotes.length);
+    quoteTextEl.innerText = `“${quotes[idx].text}”`;
+    quoteAuthorEl.innerText = `— ${quotes[idx].author}`;
+  }
+  
+  function getVibe(avg) {
+    if (avg >= 80) return "🔥 Peak Performance Mode";
+    if (avg >= 65) return "📈 On Fire! Keep Going";
+    if (avg >= 45) return "🌱 Growing Stronger";
+    return "⚡ Time to Level Up!";
+  }
+  
+  function getStrengthBadge(prod, happy, health) {
+    if (prod >= 75 && happy >= 75) return "🏆 Balance Master";
+    if (health >= 80) return "💪 Health Warrior";
+    if (happy >= 80) return "😊 Joyful Spirit";
+    if (prod >= 80) return "🚀 Productivity Elite";
+    return "🌟 Rising Star";
+  }
+  
+  function generateChallenge(prod, happy, health, vitality, sleep, water, exercise) {
+    if (prod < 50) return "📚 Focus Challenge: Do 2 hours of deep work today (use Pomodoro)!";
+    if (happy < 50) return "💬 Connection Boost: Call a friend or share a laugh with someone.";
+    if (health < 50) return "🥗 Wellness Reset: Drink 2 extra glasses of water & go to bed early.";
+    if (vitality < 50) return "🏃 Energy Break: Take a 15min walk outdoors.";
+    if (sleep < 6.5) return "😴 Sleep Goal: Try sleeping 30 mins earlier tonight!";
+    if (water < 7) return "💧 Hydration Reminder: Set alarms every 2 hours for water.";
+    if (exercise < 25) return "🧘 Mini Movement: 10 min stretch or yoga session.";
+    return "🎯 Share one new thing you learned today with someone!";
+  }
+  
+  function getMedalTier(score) {
+    if (score >= 85) return { tier: "gold", label: "Gold", icon: "🥇" };
+    if (score >= 70) return { tier: "silver", label: "Silver", icon: "🥈" };
+    if (score >= 55) return { tier: "bronze", label: "Bronze", icon: "🥉" };
+    return { tier: "none", label: "Keep Trying", icon: "🔄" };
+  }
+  
+  function getMedalRankName(avgScore) {
+    if (avgScore >= 85) return "🏆 GOLD MEDAL ACHIEVER 🏆";
+    if (avgScore >= 70) return "🥈 SILVER PERFORMER 🥈";
+    if (avgScore >= 55) return "🥉 BRONZE RISING 🥉";
+    return "⚡ LEVELING UP ⚡";
+  }
+  
+  function renderMedals(prod, happy, health, vitality, sleep, water, exercise, study, screen, moodVal) {
+    const medals = [];
+    
+    const addMedal = (score, displayName, icon) => {
+      const medal = getMedalTier(score);
+      if (medal.tier !== "none") {
+        medals.push({ name: `${icon} ${displayName} · ${medal.label}`, tier: medal.tier, emoji: medal.icon });
+      }
+    };
+    
+    addMedal(prod, "Productivity", "⚡");
+    addMedal(happy, "Happiness", "😊");
+    addMedal(health, "Health", "💪");
+    addMedal(vitality, "Vitality", "🔥");
+    
+    const avgScore = (prod + happy + health + vitality) / 4;
+    if (avgScore >= 85) medals.push({ name: "🏆 Grand Champion · Gold", tier: "gold", emoji: "🏆" });
+    else if (avgScore >= 70) medals.push({ name: "📚 Excellence Level · Silver", tier: "silver", emoji: "🎓" });
+    else if (avgScore >= 55) medals.push({ name: "🌱 Growth Seeker · Bronze", tier: "bronze", emoji: "📖" });
+    
+    if (sleep >= 7 && sleep <= 9) medals.push({ name: "😴 Sleep Master · Gold", tier: "gold", emoji: "⭐" });
+    else if (sleep >= 6) medals.push({ name: "🌙 Sleep Consistent · Silver", tier: "silver", emoji: "🌙" });
+    if (water >= 8) medals.push({ name: "💧 Hydration Pro · Gold", tier: "gold", emoji: "💎" });
+    else if (water >= 6) medals.push({ name: "🥤 Hydration Seeker · Silver", tier: "silver", emoji: "💧" });
+    if (exercise >= 30) medals.push({ name: "🏃 Active Life · Gold", tier: "gold", emoji: "⚡" });
+    else if (exercise >= 15) medals.push({ name: "🚶 Movement Starter · Silver", tier: "silver", emoji: "🏃" });
+    if (study >= 4) medals.push({ name: "📚 Deep Focus · Gold", tier: "gold", emoji: "🧠" });
+    else if (study >= 2.5) medals.push({ name: "📖 Focus Learner · Silver", tier: "silver", emoji: "📘" });
+    if (screen <= 4) medals.push({ name: "📵 Digital Balance · Gold", tier: "gold", emoji: "🧘" });
+    
+    const unique = new Map();
+    for (let m of medals) {
+      const key = m.name.split('·')[0].trim();
+      if (!unique.has(key) || (m.tier === "gold" && unique.get(key).tier !== "gold")) {
+        unique.set(key, m);
+      }
+    }
+    const final = Array.from(unique.values()).slice(0, 6);
+    
+    if (final.length === 0) {
+      medalContainer.innerHTML = `<span class="medal">🎮 Move sliders to unlock medals!</span>`;
+    } else {
+      medalContainer.innerHTML = final.map(m => {
+        let tierClass = "";
+        if (m.tier === "gold") tierClass = "medal-gold";
+        else if (m.tier === "silver") tierClass = "medal-silver";
+        else if (m.tier === "bronze") tierClass = "medal-bronze";
+        return `<span class="medal ${tierClass}">${m.emoji} ${m.name}</span>`;
+      }).join('');
+    }
+  }
+  
+  // WhatsApp Share - EXACT format matching your image
+  function shareOnWhatsApp() {
+    const prod = prodScoreEl.innerText;
+    const happy = happyScoreEl.innerText;
+    const health = healthScoreEl.innerText;
+    const vitality = vitalityScoreEl.innerText;
+    const vibeText = vibeTagEl.innerText.replace(/[^\w\s🔥📈🌱⚡]/g, '').trim();
+    const quoteRaw = quoteTextEl.innerText;
+    const avg = Math.round((parseInt(prod) + parseInt(happy) + parseInt(health) + parseInt(vitality)) / 4);
+    const challenge = challengeTextEl.innerText.replace("⚡ ", "");
+    
+    // Clean quote - remove surrounding quotes for cleaner display
+    const cleanQuote = quoteRaw.replace(/[“”]/g, '"');
+    
+    // Get medal rank
+    const medalRank = getMedalRankName(avg);
+    
+    // Format the message EXACTLY as shown in the image
+    const shareText = `📊 *My LifeScore Pro Report* 📊\n\n` +
+      `⚡ Productivity: ${prod}%  |  😊 Happiness: ${happy}%\n` +
+      `💪 Health: ${health}%  |  🔥 Vitality: ${vitality}%\n\n` +
+      `📈 Overall Score: ${avg}% · ${medalRank}\n` +
+      `✨ ${vibeText}\n\n` +
+      `🎯 Today's Challenge: ${challenge}\n\n` +
+      `💡 ${cleanQuote}\n\n` +
+      `🚀 Track your growth daily! #LifeScorePro #Wellness`;
+    
+    // Encode and open WhatsApp
+    const encodedMessage = encodeURIComponent(shareText);
+    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+    showToast("📱 Opening WhatsApp — Share your report!");
+  }
+  
+  function showToast(msg) {
+    let toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+  
+  function refreshDashboard() {
+    updateLabels();
+    const sleep = parseFloat(sleepRange.value);
+    const screen = parseFloat(screenRange.value);
+    const study = parseFloat(studyRange.value);
+    const water = parseInt(waterRange.value);
+    const exercise = parseInt(exerciseRange.value);
+    const moodVal = parseFloat(moodSelect.value);
+    
+    const prod = calcProductivity(sleep, screen, study, exercise);
+    const happy = calcHappiness(sleep, water, moodVal, exercise, screen);
+    const health = calcHealth(sleep, water, screen, exercise);
+    const vitality = calcVitality(sleep, water, exercise, moodVal);
+    
+    prodScoreEl.innerText = prod;
+    happyScoreEl.innerText = happy;
+    healthScoreEl.innerText = health;
+    vitalityScoreEl.innerText = vitality;
+    
+    const avg = (prod + happy + health + vitality) / 4;
+    vibeTagEl.innerHTML = `<i class="fas fa-chart-line"></i> ${getVibe(avg)}`;
+    strengthBadgeEl.innerText = getStrengthBadge(prod, happy, health);
+    
+    updateQuote();
+    const challenge = generateChallenge(prod, happy, health, vitality, sleep, water, exercise);
+    challengeTextEl.innerHTML = `⚡ ${challenge}`;
+    renderMedals(prod, happy, health, vitality, sleep, water, exercise, study, screen, moodVal);
+    
+    // Animate scores
+    [prodScoreEl, happyScoreEl, healthScoreEl, vitalityScoreEl].forEach(el => {
+      el.style.transform = "scale(1.05)";
+      setTimeout(() => { if(el) el.style.transform = "scale(1)"; }, 150);
+    });
+  }
+  
+  const inputs = [sleepRange, screenRange, studyRange, waterRange, exerciseRange, moodSelect];
+  inputs.forEach(inp => inp.addEventListener('input', refreshDashboard));
+  whatsappBtn.addEventListener('click', shareOnWhatsApp);
+  refreshDashboard();
+</script>
+</body>
+</html>
